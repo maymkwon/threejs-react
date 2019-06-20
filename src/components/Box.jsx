@@ -33,15 +33,17 @@ class Box extends Component {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setClearColor('#eeeeee');
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.shadowMapEnabled = true;
     this.mount.appendChild(this.renderer.domElement);
 
-    let axes = new THREE.AxesHelper(20);
+    let axes = new THREE.AxesHelper(30);
     scene.add(axes);
 
     let planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1);
-    let planeMaterial = new THREE.MeshBasicMaterial({ color: '#ccc' });
+    let planeMaterial = new THREE.MeshLambertMaterial({ color: '#ccc' });
     let plane = new THREE.Mesh(planeGeometry, planeMaterial);
 
+    plane.receiveShadow = true;
     plane.rotation.x = -0.5 * Math.PI;
     plane.position.x = 15;
     plane.position.y = 0;
@@ -49,11 +51,12 @@ class Box extends Component {
     scene.add(plane);
 
     let cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
-    let cubeMaterial = new THREE.MeshBasicMaterial({ color: '#ff0000' });
+    let cubeMaterial = new THREE.MeshLambertMaterial({ color: '#ff0000' });
     let cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    cube.castShadow = true;
     cube.position.x = -4;
-    cube.position.y = 3;
-    cube.position.z = 0;
+    // cube.position.y = 3;
+    // cube.position.z = 0;
 
     scene.add(cube);
 
@@ -61,6 +64,11 @@ class Box extends Component {
     camera.position.y = 40;
     camera.position.z = 30;
     camera.lookAt(scene.position);
+
+    let spotLight = new THREE.SpotLight('#fff');
+    spotLight.castShadow = true;
+    spotLight.position.set(-40, 60, -10);
+    scene.add(spotLight);
 
     console.log(this.renderer);
     this.renderer.render(scene, camera);
