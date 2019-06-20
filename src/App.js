@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'react-dat-gui/build/react-dat-gui.css';
 import * as THREE from 'three';
+import './App.css';
 import DatGui, {
   DatBoolean,
   DatColor,
@@ -38,7 +39,7 @@ class App extends Component {
   };
   componentDidMount() {
     const width = this.mount.clientWidth;
-    const height = this.mount.clientHeight;
+    const height = document.body.clientHeight;
     //ADD SCENE
     this.scene = new THREE.Scene();
     //ADD CAMERA
@@ -85,7 +86,7 @@ class App extends Component {
           <DatColor path="feelsLike" label="Feels Like" />
         </DatGui>
         <div
-          style={{ width: '400px', height: '400px' }}
+          style={{ width: '100%', height: '100%' }}
           ref={mount => {
             this.mount = mount;
           }}
